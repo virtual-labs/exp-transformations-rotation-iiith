@@ -19,7 +19,7 @@
             "difficulty": "beginner"
         },
         {
-            "question": "6. What is the significance of the steps involving axis alignment in arbitrary axis rotations?",
+            "question": "2. What is the significance of the steps involving axis alignment in arbitrary axis rotations?",
             "answers": {
                 "a": "To change the color of the axis",
                 "b": "To simplify the rotation process",
@@ -36,7 +36,7 @@
             "difficulty": "intermediate"
         },
         {
-            "question": "2. What does the matrix 'M = T<sub>-1</sub>RT' represent in rotation transformations?",
+            "question": "3. What does the matrix 'M = T<sub>-1</sub>RT' represent in rotation transformations?",
             "answers": {
                 "a": "A translation matrix",
                 "b": "A scaling matrix",
@@ -53,7 +53,7 @@
             "difficulty": "advanced"
         },
         {
-            "question": "3. Why is translation necessary when rotating about a specific point?",
+            "question": "4. Why is translation necessary when rotating about a specific point?",
             "answers": {
                 "a": "To change the color of points",
                 "b": "To simplify the rotation process",
@@ -70,7 +70,7 @@
             "difficulty": "advanced"
         },
         {
-            "question": "4. What is the importance of understanding the frame of reference in rotations?",
+            "question": "5. What is the importance of understanding the frame of reference in rotations?",
             "answers": {
                 "a": "To change the color of objects",
                 "b": "To simplify the rotation process",
@@ -87,7 +87,7 @@
             "difficulty": "advanced"
         },
         {
-            "question": "5. How are clockwise and counterclockwise rotations related in a two-dimensional coordinate system?",
+            "question": "6. How are clockwise and counterclockwise rotations related in a two-dimensional coordinate system?",
             "answers": {
                 "a": "They have no relation.",
                 "b": "Clockwise rotation is equivalent to counterclockwise rotation.",
