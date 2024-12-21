@@ -151,7 +151,7 @@
                         point to another.
                     </li>
                     <li class="instr-font">
-                        <strong style="font-size: 19px;">Point Coordinates</strong>: Defines the specific position of a
+                        <strong style="font-size: 19px; ">Point Coordinates</strong>: Defines the specific position of a
                         point in 3D space
                         using the
                         <strong>X</strong>, <strong>Y</strong>, and <strong>Z</strong> axes.
@@ -227,11 +227,11 @@
                 <div class="v-datalist-row" id="top-border">
                     <div class="v-datalist-title">Shape Controls</div>
                     <p>
-                        <button id="add-shape-btn" style="margin:0.25rem;"
+                        <button id="add-shape-btn" style="margin:0.05rem;"
                             class="v-button is-small is-responsive is-info" onclick="addShape()">Add</button>
-                        <button id="edit-shape-btn" style="margin:0.25rem;"
+                        <button id="edit-shape-btn" style="margin:0.05rem;"
                             class="v-button is-small is-responsive  is-success" onclick="editShape()">Edit</button>
-                        <button id="delete-shape-btn" style="margin:0.25rem;"
+                        <button id="delete-shape-btn" style="margin:0.05rem;"
                             class="v-button is-small is-responsive  is-danger" onclick="deleteShape()">Delete</button>
 
                     <section id="edit-modal" class="modal is-responsive">
@@ -375,9 +375,9 @@
                     </div>
 
                 </div>
-                <div class="v-datalist-row" style="padding-top: 20px;" id="top-border">
+                <div class="v-datalist-row" style="padding-top: 60px;" id="top-border">
                     <div class="v-datalist-title">Rotation Controls</div>
-                    <div style="margin: 1rem;">
+                    <div class="axis-change">
                         <div class="select">
                             <select name="" id="axis-change-dropdown" value="dropdown">
                                 <option value="0">X</option>
@@ -385,7 +385,7 @@
                                 <option value="2">Z</option>
                             </select>
                         </div>
-                        <input class="v-button is-responsive is-small" style="margin: 0.5rem;" id="set-rotation-axis"
+                        <input class="v-button" style="margin: 0.5rem;" id="set-rotation-axis"
                             type="submit" value="Change Axis">
                     </div>
 
