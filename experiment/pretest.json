@@ -38,16 +38,16 @@
         {
             "question": "3. What does the rotation matrix for rotating about the Z-axis look like?",
             "answers": {
-                "a": "[[cos(θ), -sin(θ)], [sin(θ), cos(θ)]]",
-                "b": "[[cos(θ), 0, -sin(θ)], [0, 1, 0], [sin(θ), 0, cos(θ)]]",
-                "c": "[[cos(θ), -sin(θ), 0], [sin(θ), cos(θ), 0], [0, 0, 1]]",
-                "d": "[[1, 0, 0], [0, cos(θ), -sin(θ)], [0, sin(θ), cos(θ)]]"
+              "a": "<img src=\"images/rotation-matrix-2D.png\">",
+              "b": "<img src=\"images/rotation-Y.png\">",
+              "c": "<img src=\"images/rotation-Z.png\">",
+              "d": "<img src=\"images/rotation-X.png\">"
             },
             "correctAnswer": "c",
             "explanations": {
                 "a": "Incorrect. This matrix represents rotation in 2D, not 3D about the Z-axis.",
                 "b": "Incorrect. This matrix represents rotation about the Y-axis, not the Z-axis.",
-                "c": "Correct! The rotation matrix for the Z-axis in 3D space is [[cos(θ), -sin(θ), 0], [sin(θ), cos(θ), 0], [0, 0, 1]].",
+                "c": "Correct! The rotation matrix for the Z-axis in 3D space is <img src=\"images/rotation-Z.png\">",
                 "d": "Incorrect. This matrix represents rotation about the X-axis, not the Z-axis."
             },
             "difficulty": "intermediate"
