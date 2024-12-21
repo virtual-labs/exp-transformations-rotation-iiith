@@ -948,7 +948,7 @@ let init = function () {
   renderer = new THREE.WebGLRenderer();
   let w = container.offsetWidth;
   let h = container.offsetHeight;
-  renderer.setSize(w, 0.85 * h);
+  renderer.setSize(w, 0.85* h);
   container.appendChild(renderer.domElement);
   orbit = new OrbitControls(camera, renderer.domElement);
   orbit.mouseButtons = {
