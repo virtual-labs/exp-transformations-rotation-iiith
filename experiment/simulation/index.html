@@ -11,177 +11,147 @@
 
 <body class="page" style="margin: 1rem">
     <section class="columns is-centered is-flex column">
-        <div id="axis-labels"
-            style="position: absolute; top: 100px; right: 10px; padding: 10px; border-radius: 5px; color: white;">
-            <div><span style="color: rgb(236, 236, 240);">Axis-labels:</span></div>
-            <div><span style="color: red;">X-axis</span></div>
-            <div><span style="color: yellow;">Y-axis</span></div>
-            <div><span style="color: blue;">Z-axis</span></div>
-        </div>
         <div class="v-collapsible-instruction-container">
             <div class="v-collapsible" id="toggle-instructions"
                 style="cursor: pointer; background: #f1f1f1; padding: 10px; border-radius: 5px;">
                 <strong>Instructions</strong>
             </div>
-            <div id="procedure-message" class="v-content"
-                style="display: none; background: #f9f9f9; padding: 15px 15px 15px 30px; border-radius: 5px;">
-                <ol>
-                    <li class="instr-font">
-                        <strong style="font-size: 19px;">Mouse Controls</strong>:
-                        <ul style="list-style-type: disc;padding-left: 20px;">
-                            <li><strong>Left Mouse</strong>: Used for translating (shifting) the entire simulation by
-                                left-clicking and dragging
-                                the cursor.</li>
-                            <li><strong>Right Mouse</strong>: Used for rotating the simulation by right-clicking and
-                                dragging
-                                the cursor.</li>
-                            <li><strong>Middle Mouse</strong>: Used for zooming in and out of the simulation by
-                                scrolling.</li>
-                        </ul>
+        </div>
+        <div id="procedure-message" class="v-content">
+            <ol>
+                <li class="instr-font">
+                    <strong style="font-size: 19px;">🖱️Mouse Controls</strong>:
+                    <ul style="list-style-type: disc;padding-left: 20px;">
+                        <li><strong>Left Mouse</strong>: Used for translating (shifting) the entire simulation by
+                            left-clicking and dragging
+                            the cursor.</li>
+                        <li><strong>Right Mouse</strong>: Used for rotating the simulation by right-clicking and
+                            dragging
+                            the cursor.</li>
+                        <li><strong>Middle Mouse</strong>: Used for zooming in and out of the simulation by
+                            scrolling.</li>
+                    </ul>
 
-                    </li>
-                    <li class="instr-font">
-                        <strong style="font-size: 19px;">Lock Options</strong>:
-                        <ul style="list-style-type: disc;padding-left: 20px;">
-                            <li><strong>Lock Graph</strong>: Disables the translation (shifting) of the simulation when
-                                enabled.
-                            </li>
-                            <li><strong>Lock Zoom</strong>: Prevents zooming functionality when enabled, disabling the
-                                middle
-                                mouse button.</li>
-                            <li><strong>Lock Rotate</strong>: Disables the rotation of the simulation when enabled,
-                                disabling
-                                the right mouse button.</li>
-                        </ul>
-                    </li>
-                    <li class="instr-font">
-                        <strong style="font-size: 19px;">Shape Controls</strong>:
-                        <ul style="list-style-type: disc;padding-left: 20px;">
-                            <li>Click the <strong style="color: #3298dc;font-size: 18px;">Add</strong> button to open a
-                                modal
-                                where you can select a shape type and
-                                specify the coordinates for positioning.
-                                <ul style="list-style-type: disc;padding-left: 20px;">
-                                    <li>
-                                        <strong>Note</strong>:⚠️ Do not create any two shapes with the same coordinates.
-                                    </li>
-
-                                </ul>
-                            </li>
-                            <li>Click the <strong style="color: #970473;font-size: 18px;">Select</strong> button to
-                                choose a
-                                shape, which will highlight it with a
-                                spherical outline in the scene for easy identification.</li>
+                </li>
+                <li class="instr-font">
+                    <strong style="font-size: 19px;">🔒Lock Options</strong>:
+                    <ul style="list-style-type: disc;padding-left: 20px;">
+                        <li><strong>Lock Graph</strong>: Disables the translation (shifting) of the simulation when
+                            enabled.
+                        </li>
+                        <li><strong>Lock Zoom</strong>: Prevents zooming functionality when enabled, disabling the
+                            middle
+                            mouse button.</li>
+                        <li><strong>Lock Rotate</strong>: Disables the rotation of the simulation when enabled,
+                            disabling
+                            the right mouse button.</li>
+                    </ul>
+                </li>
+                <li class="instr-font">
+                    <strong style="font-size: 19px;">➕Shape Controls</strong>:
+                    <ul style="list-style-type: disc;padding-left: 20px;">
+                        <li>Click the <strong style="color: #3298dc;font-size: 18px;">Add</strong> button to open a
+                            modal
+                            where you can select a shape type and
+                            specify the coordinates for positioning.
                             <ul style="list-style-type: disc;padding-left: 20px;">
-
-                                <li>After selecting, click the <strong
-                                        style="color: #48c774; font-size: 18px;">Edit</strong>
-                                    button to modify the
-                                    shape's properties or position.</li>
-                                <li> After selecting, click the <strong
-                                        style="color: #f14668;font-size: 18px;">Delete</strong>
-                                    button to remove the shape
-                                    from the scene.</li>
+                                <li>
+                                    <strong>Note</strong>:⚠️ Do not create any two shapes with the same coordinates.
+                                </li>
 
                             </ul>
+                        </li>
+                        <li>Click the <strong style="color: #970473;font-size: 18px;">Select</strong> button to
+                            choose a
+                            shape, which will highlight it with a
+                            spherical outline in the scene for easy identification.</li>
+                        <ul style="list-style-type: disc;padding-left: 20px;">
+
+                            <li>After selecting, click the <strong
+                                    style="color: #48c774; font-size: 18px;">Edit</strong>
+                                button to modify the
+                                shape's properties or position.</li>
+                            <li> After selecting, click the <strong
+                                    style="color: #f14668;font-size: 18px;">Delete</strong>
+                                button to remove the shape
+                                from the scene.</li>
+
                         </ul>
-                    </li>
+                    </ul>
+                </li>
 
-                    <li class="instr-font">
-                        <strong style="font-size: 19px;">Rotation Controls</strong>:
-                        <ul style="list-style-type: disc; padding-left: 20px;">
-                            <li>
-                                <strong>Select Rotation Axis:</strong> Choose
-                                <strong>X</strong>,
-                                <strong>Y</strong>, or
-                                <strong>Z</strong> from the dropdown to define the axis of
-                                rotation.
-                            </li>
-                            <li>
-                                <strong>Apply Rotation:</strong> Click the
-                                <strong style="color:  #3298dc; font-size: 18px;">Change Axis</strong> button to set the
-                                selected axis for
-                                rotation.
-                            </li>
-                            <li>
-                                <strong>Adjust Rotation:</strong> Use the
-                                <strong style="font-size: 18px;">Slider</strong> to adjust the angle of rotation
-                                dynamically.
-                            </li>
-                            <li>
-                                <strong>Theta (θ):</strong> Defines the rotation angle. Enter a value in degrees (e.g.,
-                                90°, 180°) to
-                                rotate the shape, or adjust it with the slider.
+                <li class="instr-font">
+                    <strong style="font-size: 19px;">🔄Rotation Controls</strong>:
+                    <ul style="list-style-type: disc; padding-left: 20px;">
+                        <li>
+                            <strong>Select Rotation Axis:</strong> Choose
+                            <strong>X</strong>,
+                            <strong>Y</strong>, or
+                            <strong>Z</strong> from the dropdown to define the axis of
+                            rotation.
+                        </li>
+                        <li>
+                            <strong>Apply Rotation:</strong> Click the
+                            <strong style="color:  #3298dc; font-size: 18px;">Change Axis</strong> button to set the
+                            selected axis for
+                            rotation.
+                        </li>
+                        <li>
+                            <strong>Adjust Rotation:</strong> Use the
+                            <strong style="font-size: 18px;">🎚️Slider</strong> to adjust the angle of rotation
+                            dynamically.
+                        </li>
+                        <li>
+                            <strong>Theta (θ):</strong> Defines the rotation angle. Enter a value in degrees (e.g.,
+                            90°, 180°) to
+                            rotate the shape, or adjust it with the slider.
 
-                            </li>
-                        </ul>
-                    </li>
-
-
-                    <!-- NOTE section -->
-                    <li class="instr-font">
-                        <strong style="font-size: 19px; color: #FF6347;">NOTE:</strong>
-                        <ul style="list-style-type: disc; padding-left: 20px;">
-                            <li>
-                                <strong>For Points:</strong> Rotation occurs around the X, Y, and Z axes passing through
-                                the origin.
-                            </li>
-                            <li>
-                                <strong>For Shapes:</strong> Rotation occurs around axes passing through their center in
-                                the X, Y, and Z
-                                directions.
-                            </li>
-                        </ul>
-                    </li>
+                        </li>
+                    </ul>
+                </li>
 
 
+                <!-- NOTE section -->
+                <li class="instr-font">
+                    <strong style="font-size: 19px; color: #FF6347;">NOTE:</strong>
+                    <ul style="list-style-type: disc; padding-left: 20px;">
+                        <li>
+                            <strong>For Points:</strong> Rotation occurs around the X, Y, and Z axes passing through
+                            the origin.
+                        </li>
+                        <li>
+                            <strong>For Shapes:</strong> Rotation occurs around axes passing through their center in
+                            the X, Y, and Z
+                            directions.
+                        </li>
+                    </ul>
+                </li>
 
-                    <li class="instr-font">
-                        <strong style="font-size: 19px;">Grid Options</strong>: Check the corresponding checkboxes to
-                        display
-                        the
-                        <strong>XY-grid</strong>, <strong>YZ-grid</strong>, and <strong>XZ-grid</strong>, and uncheck
-                        them to
-                        remove them from view.
-                    </li>
-                    <li class="instr-font">
-                        <strong style="font-size: 19px;">Frames</strong>: Set the number of frames to control how
-                        smoothly the
-                        object moves from one
-                        point to another.
-                    </li>
-                    <li class="instr-font">
-                        <strong style="font-size: 19px; ">Point Coordinates</strong>: Defines the specific position of a
-                        point in 3D space
-                        using the
-                        <strong>X</strong>, <strong>Y</strong>, and <strong>Z</strong> axes.
 
-                </ol>
-            </div>
+
+                <li class="instr-font">
+                    <strong style="font-size: 19px;">📊Grid Options</strong>: Check the corresponding checkboxes to
+                    display
+                    the
+                    <strong>XY-grid</strong>, <strong>YZ-grid</strong>, and <strong>XZ-grid</strong>, and uncheck
+                    them to
+                    remove them from view.
+                </li>
+                <li class="instr-font">
+                    <strong style="font-size: 19px;">🎥Frames</strong>: Set the number of frames to control how
+                    smoothly the
+                    object moves from one
+                    point to another.
+                </li>
+                <li class="instr-font">
+                    <strong style="font-size: 19px; ">📍Point Coordinates</strong>: Defines the specific position of a
+                    point in 3D space
+                    using the
+                    <strong>X</strong>, <strong>Y</strong>, and <strong>Z</strong> axes.
+
+            </ol>
         </div>
 
-
-
-        <script>
-            // Select relevant elements
-            const toggleInstructions = document.getElementById("toggle-instructions");
-            const procedureMessage = document.getElementById("procedure-message");
-            const axisLabels = document.getElementById("axis-labels");
-            const sliderContainer = document.querySelector(".slider-container"); // Target slider container
-
-            // Add click event to toggle instructions and adjust axis-labels and slider position
-            toggleInstructions.addEventListener("click", () => {
-                // Determine visibility of instructions using computed style
-                const isVisible = window.getComputedStyle(procedureMessage).display === "block";
-                procedureMessage.style.display = isVisible ? "none" : "block";
-
-                // Adjust the axis-labels top position
-                axisLabels.style.top = isVisible ? "100px" : "800px"; // Adjust based on desired shift
-
-                // Adjust the slider container position
-                // sliderContainer.style.top = isVisible ? "875px" : "50px"; // Adjust based on desired shift
-            });
-        </script>
 
     </section>
 
@@ -294,22 +264,7 @@
                     </p>
                 </div>
 
-                <div class="v-datalist-row" id="top-border">
-                    <div class="v-datalist-title">Point Co-ordinates</div>
-
-                    <div style="display: flexbox;" class="field-div">
-                        X:
-                        <input class="input fields is-responsive is-small" style="width:20%" type="number"
-                            id="quantityx" step="0.01" value="5" placeholder="X"> Y:
-                        <input class="input fields is-responsive is-small" style="width:20%" type="number"
-                            id="quantityy" step="0.01" value="3" placeholder="Y"> Z:
-                        <input class="input fields is-responsive is-small" style="width:20%" type="number"
-                            id="quantityz" step="0.01" value="-3" placeholder="Z">
-                    </div>
-
-                    <input class="v-button is-responsive is-small is-link" style="margin: 2px;" id="move-button"
-                        type="submit" value="Move">
-                </div>
+                
 
                 <div class="v-datalist-title-shapes">Shapes</div>
                 <div id="shape-list" class="shape-list-container">
@@ -319,7 +274,7 @@
             </div>
         </aside>
 
-        <div class="column is-8-desktop is-10-tablet is-10-mobile exp">
+        <div class="column is-7-desktop is-10-tablet is-10-mobile exp">
             <div class="v-canvas-container" id="canvas-main">
 
             </div>
@@ -375,7 +330,24 @@
                     </div>
 
                 </div>
-                <div class="v-datalist-row" style="padding-top: 60px;" id="top-border">
+                <div class="v-datalist-row" id="top-border">
+                    <div class="v-datalist-title">Point Co-ordinates</div>
+                
+                    <div style="display: flexbox; padding-top: -20px;">
+                        X:
+                        <input class="input fields is-responsive is-small" style="width:20%" type="number" id="quantityx" step="0.01"
+                            value="5" placeholder="X"> Y:
+                        <input class="input fields is-responsive is-small" style="width:20%" type="number" id="quantityy" step="0.01"
+                            value="3" placeholder="Y"> Z:
+                        <input class="input fields is-responsive is-small" style="width:20%" type="number" id="quantityz" step="0.01"
+                            value="-3" placeholder="Z">
+                    </div>
+                
+                    <input class="v-button is-responsive is-small is-link" style="margin: 2px;" id="move-button" type="submit"
+                        value="Move">
+                </div>
+
+                <div class="v-datalist-row" id="top-border">
                     <div class="v-datalist-title">Rotation Controls</div>
                     <div class="axis-change">
                         <div class="select">
@@ -385,20 +357,20 @@
                                 <option value="2">Z</option>
                             </select>
                         </div>
-                        <input class="v-button" style="margin: 0.5rem;" id="set-rotation-axis"
-                            type="submit" value="Change Axis">
+                        <input class="v-button" style="margin: 0.5rem;" id="set-rotation-axis" type="submit"
+                            value="Change Axis">
                     </div>
 
-                    <div style="vertical-align: middle; margin: 1rem;">
+                    <div style="vertical-align: middle;">
                         <div style="margin: 1rem; text-align: center;">
                             <label for="frames">Frames</label>
-                            <input class="input is-responsive is-small" style="width:30%;" type="number" id="frames"
+                            <input class="input is-responsive is-small" style="width:40%;" type="number" id="frames"
                                 min="1" value="100" step="1" placeholder="Frames">
                         </div>
 
                         <div style="margin: 1rem; text-align: center;">
                             <label for="theta">Theta<nbsp></nbsp></label>
-                            <input class="input is-responsive is-small" style="width:30%;" type="number" id="theta"
+                            <input class="input is-responsive is-small" style="width:40%;" type="number" id="theta"
                                 value="180" step="0.01" placeholder="Theta">
                         </div>
                     </div>

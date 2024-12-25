@@ -861,6 +861,71 @@ set_rotation_axis.addEventListener("click", () => {
   );
 });
 
+
+function createLabel(text, direction, length) {
+  const fontLoader = new THREE.FontLoader();
+  let labelMesh;
+
+  fontLoader.load(
+    "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",
+    function (font) {
+      const geometry = new THREE.TextGeometry(text, {
+        font: font,
+        size: 0.6,
+        height: 0.1,
+      });
+      const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      labelMesh = new THREE.Mesh(geometry, material);
+
+      // Position the label at the end of the arrow (tip of the arrow)
+      const labelPosition = direction.clone().multiplyScalar(length);
+      labelMesh.position.copy(labelPosition);
+      scene.add(labelMesh);
+    }
+  );
+
+  return labelMesh;
+}
+
+const toggleInstructions = document.getElementById("toggle-instructions");
+const procedureMessage = document.getElementById("procedure-message");
+
+// Function to show the instructions overlay
+const showInstructions = () => {
+  procedureMessage.style.display = "block";
+};
+
+// Function to hide the instructions overlay
+const hideInstructions = (event) => {
+  // Close if click is outside the overlay or if it's the toggle button again
+  if (
+    !procedureMessage.contains(event.target) &&
+    event.target !== toggleInstructions
+  ) {
+    procedureMessage.style.display = "none";
+  }
+};
+
+// Attach event listeners
+toggleInstructions.addEventListener("click", (event) => {
+  // Toggle the visibility of the overlay
+  if (procedureMessage.style.display === "block") {
+    procedureMessage.style.display = "none";
+  } else {
+    showInstructions();
+  }
+  event.stopPropagation(); // Prevent immediate closure after clicking the button
+});
+
+document.addEventListener("click", hideInstructions);
+
+// Prevent closing the overlay when clicking inside it
+procedureMessage.addEventListener("click", (event) => {
+  event.stopPropagation(); // Prevent the click inside from closing the overlay
+});
+
+
+
 scene = new THREE.Scene();
 scene.background = new THREE.Color(0x333333);
 camera = new THREE.PerspectiveCamera(
@@ -894,15 +959,39 @@ let init = function () {
   );
 
   const length = 10;
-  arrowHelper[0] = new THREE.ArrowHelper(dir_x, origin, length, "red");
-  arrowHelper[1] = new THREE.ArrowHelper(dir_y, origin, length, "yellow");
-  arrowHelper[2] = new THREE.ArrowHelper(dir_z, origin, length, "blue");
-  arrowHelper[3] = new THREE.ArrowHelper(negdir_x, origin, length, "red");
-  arrowHelper[4] = new THREE.ArrowHelper(negdir_y, origin, length, "yellow");
-  arrowHelper[5] = new THREE.ArrowHelper(negdir_z, origin, length, "blue");
-  for (let i = 0; i < 6; i++) {
-    scene.add(arrowHelper[i]);
-  }
+ const arrowHelper = [];
+ const dir = [
+   new THREE.Vector3(1, 0, 0), // +X
+   new THREE.Vector3(0, 1, 0), // +Y
+   new THREE.Vector3(0, 0, 1), // +Z
+   new THREE.Vector3(-1, 0, 0), // -X
+   new THREE.Vector3(0, -1, 0), // -Y
+   new THREE.Vector3(0, 0, -1), // -Z
+ ];
+
+ const labels = ["+X", "+Y", "+Z", "-X", "-Y", "-Z"]; // Labels for each axis
+
+
+ // Loop through the axes
+ for (let i = 0; i < 6; i++) {
+   // Determine color based on the direction
+   let color;
+   if (i === 0 || i === 3) {
+     color = "red"; // +X and -X axes
+   } else if (i === 1 || i === 4) {
+     color = "yellow"; // +Y and -Y axes
+   } else {
+     color = "blue"; // +Z and -Z axes
+   }
+
+   // Create the arrow helper for the current direction and color
+   arrowHelper[i] = new THREE.ArrowHelper(dir[i], origin, length, color);
+   scene.add(arrowHelper[i]);
+
+   // Create label for each axis and position it at the tip of the arrow
+   const label = createLabel(labels[i], dir[i], length);
+   scene.add(label);
+ }
   let direction = new THREE.Vector3().subVectors(endPoint, origin).normalize();
 
   vectorArrow = new THREE.ArrowHelper(
