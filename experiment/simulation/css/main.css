@@ -2,20 +2,6 @@
     overflow: hidden;
 } 
 
-#axis-labels {
-    position: absolute;
-    /* top: 5px; */
-    /* right: 5px; */
-    left:1450px;
-    bottom:500px;
-    /* background: rgba(255, 255, 255, 0.7); semi-transparent background */
-    padding: 10px;
-    border-radius: 5px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    color: #000;
-    z-index: 100; /* Ensure it stays above other elements */
-}
 
 .smol-font {
    font-size: x-medium; 
@@ -75,7 +61,7 @@
 .slider-container {
     position: relative;
      display: flex; /*Flex layout for the container*/ 
-    margin-top: -90px;
+    margin-top: -9vh;
 }
 
 .centered-slider {
@@ -116,6 +102,26 @@
     }
 }
 
+/* Extra styles for desktop */
+/* Extra styles for desktop */
+@media (min-width: 1024px) {
+  #left.apparatus {
+    width: 20vw; /* Adjusting width using viewport width */
+    height: 92vh; /* Adjusting height using viewport height */
+    border-radius: 16px; /* Rounded corners for a modern look */
+    overflow-y: auto; /* Scrollbar for overflow content */
+    /* Any additional styles can be added here */
+  }
+ #observations.right {
+    width: 20vw; /* Adjusting width using viewport width */
+    height: 92vh; /* Adjusting height using viewport height */
+    border-radius: 16px; /* Rounded corners for a modern look */
+    overflow-y: auto; /* Scrollbar for overflow content */
+    /* Any additional styles can be added here */
+  }
+}
+
+
 .main-content {
     display: flex;
     flex-direction: column;
@@ -131,7 +137,7 @@
 
 #top-border {
     border-top: 1px solid black;
-    margin: 0.5rem;
+    /* margin: 0.5rem; */
 }
 
 .smol-wid {
@@ -287,7 +293,7 @@
 }
 
 .field-div {
-    padding-top: -100px;
+    padding-top: 10px;
 	margin: 2px;
 }
 
@@ -301,7 +307,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 100%;
-  height: 280px; /* Set a fixed height, adjust as needed */
+  height: 60vh; /* Set a fixed height, adjust as needed */
   overflow-x: auto; /* Allows horizontal scrolling if the list overflows */
 }
 
@@ -430,4 +436,47 @@
   font-weight: normal;
   color: #683801;
   margin-top: 5px;
+}
+
+#procedure-message {
+    display: none;
+    position: fixed;
+    max-width: 100vw; /* Full width */
+    max-height: 90vh; /* Prevent overflow */
+    overflow-y: auto; /* Scroll if content exceeds height */
+    background: linear-gradient(135deg, #f0f4f8, #d6e1e7); /* Gradient background */
+    z-index: 1000;
+    padding: 35px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); /* Deeper shadow for more depth */
+    border-radius: 16px; /* Rounded corners for a smoother look */
+    text-align: left;
+    top: 48%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%);
+    animation: fadeIn 0.5s ease-out; /* Fade-in animation */
+    border: 2px solid #3498db; /* Border with a light blue color */
+}
+
+/* Add a subtle fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Optional: add hover effect */
+#procedure-message:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+    transform: translate(-50%, -50%) scale(1.05); /* Slight zoom effect */
+}
+
+
+
+
+#observations.column.has-text-centered {
+
+  overflow-y: auto; /* Enable scrollbar if content overflows */
 }
