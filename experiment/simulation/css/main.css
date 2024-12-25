@@ -61,7 +61,7 @@
 .slider-container {
     position: relative;
      display: flex; /*Flex layout for the container*/ 
-    margin-top: -9vh;
+    margin-top: -11vh;
 }
 
 .centered-slider {
@@ -107,14 +107,14 @@
 @media (min-width: 1024px) {
   #left.apparatus {
     width: 20vw; /* Adjusting width using viewport width */
-    height: 92vh; /* Adjusting height using viewport height */
+    height: 95vh; /* Adjusting height using viewport height */
     border-radius: 16px; /* Rounded corners for a modern look */
     overflow-y: auto; /* Scrollbar for overflow content */
     /* Any additional styles can be added here */
   }
  #observations.right {
     width: 20vw; /* Adjusting width using viewport width */
-    height: 92vh; /* Adjusting height using viewport height */
+    height: 95vh; /* Adjusting height using viewport height */
     border-radius: 16px; /* Rounded corners for a modern look */
     overflow-y: auto; /* Scrollbar for overflow content */
     /* Any additional styles can be added here */
