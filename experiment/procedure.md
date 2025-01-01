@@ -1,27 +1,19 @@
-## Experiment Procedure
+# Procedure 
 
-1. **Introduction to Rotation Transformation:**
-   - This experiment introduces the concept of the [rotation transformation](#).
+## Step 1: Familiarize with Interface Controls
+- **Mouse and Touch Controls**: Understand how to translate, rotate, and zoom using left-click, right-click, scrolling, and touch gestures respectively. Refer to the "Mouse Controls" and "Mobile Touch Controls" sections for detailed instructions.
 
-2. **Interactive Point Rotation:**
-   - A point is selected for the rotation transformation.
-   - Utilize the slider located at the bottom of the interface to [watch the rotation](#) of the point about the origin.
+## Step 2: Utilize Lock Options
+- **Lock Functionality**: Explore and use the lock options such as Lock Graph, Lock Zoom, and Lock Rotate to restrict specific functionalities like translation, zooming, and rotation of the simulation. These options enhance control and precision in manipulating the simulation.
 
-3. **Node Representation of Transformation:**
-   - The experiment incorporates a visual representation through a tree structure.
-   - A node within the tree corresponds to the transformation applied to the point, showing the rotation axis and the angle of rotation.
-   - Move the slider to animate the transformation between the starting and ending points.
+## Step 3: Manage Shape Controls
+- **Shape Manipulation**: Practice adding, selecting, editing, and deleting shapes using the corresponding buttons (Add, Edit, Delete). Ensure shapes are positioned correctly before using the Select button to avoid unintended adjustments. Use caution when editing or deleting shapes to maintain simulation integrity.
 
-4. **Matrix Representation (R):**
-   - The rotation matrix (R) responsible for the transformation is displayed.
-   - Participants can actively engage by editing the rotation parameters, observing how the matrix dynamically adjusts.
+## Step 4: Explore Grid and Rotation Controls
+- **Grid Visualization**: Toggle the display of XY-grid, YZ-grid, and XZ-grid using checkboxes under Grid Options. Visualize spatial relationships within the simulation to aid in positioning and alignment of shapes.
+- **Rotation and Transformation**: Experiment with rotation controls by selecting the rotation axis (X, Y, or Z) and adjusting the angle dynamically using the slider. Understand how the Transformation Matrix reflects changes made to shape orientation and position.
 
-5. **Interpretations of Rotation:**
-   - Switch between two interpretations of rotation at any time by checking the [Transform co-ordinate systems checkbox](#) under the Display tab.
-   - Compare how rotation works in both cases: rotation of a point with respect to the coordinate axes and the rotation of the coordinate axes with respect to the point.
+## Step 5: Reset and Optimization
+- **Reset and Best Practices**: Use the Reset All button to revert all controls and settings to their default values. Ensure the slider is at zero before making adjustments for accurate scaling and rotation. Note the optimization tips for desktop screens to ensure the best simulation experience.
 
-6. **Three-Dimensional Rotation:**
-   - For rotations along specific axes, switch to a 3-dimensional world by checking the [3D checkbox](#) under the Display tab.
-   - Drag with the right mouse button to rotate the entire world, offering a more dynamic perspective.
-
-By following these steps, participants will gain hands-on experience in applying rotation transformations, understanding the associated matrix operations, and exploring the nuances of interpreting rotations in different coordinate systems.
+By following these steps, you can effectively navigate and utilize the features and controls provided in the HTML simulation file, facilitating an enhanced understanding and manipulation of 3D shapes and transformations.
