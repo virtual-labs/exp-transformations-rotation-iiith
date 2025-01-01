@@ -38,14 +38,14 @@
         {
             "question": "3. What does the rotation matrix for rotating about the Z-axis look like?",
             "answers": {
-              "a": "<img src=\"images/rotation-matrix-2D.png\">",
-              "b": "<img src=\"images/rotation-Y.png\">",
-              "c": "<img src=\"images/rotation-Z.png\">",
-              "d": "<img src=\"images/rotation-X.png\">"
+              "a": "<img src=\"images/op1.png\">",
+              "b": "<img src=\"images/op2.png\">",
+              "c": "<img src=\"images/op3.png\">",
+              "d": "<img src=\"images/op4.png\">"
             },
             "correctAnswer": "c",
             "explanations": {
-                "a": "Incorrect. This matrix represents rotation in 2D, not 3D about the Z-axis.",
+                "a": "Incorrect. This matrix represents rotation represents some different kind of mix-rotation",
                 "b": "Incorrect. This matrix represents rotation about the Y-axis, not the Z-axis.",
                 "c": "Correct! The rotation matrix for the Z-axis in 3D space is <img src=\"images/rotation-Z.png\">",
                 "d": "Incorrect. This matrix represents rotation about the X-axis, not the Z-axis."
