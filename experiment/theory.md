@@ -1,6 +1,6 @@
 ## Rotation Transformation in 3D Space
 
-* Rotation transformation involves rotating points about an axis passing through the origin. This transformation is fundamental in graphics applications, particularly when working with the coordinate axes X, Y, and Z.
+* Rotation transformation involves rotating points about an axis, which can either pass through the origin or be located arbitrarily in space. This transformation is fundamental in graphics applications, particularly when working with the coordinate axes X, Y, and Z.
 
 ### Rotation Matrices
 
@@ -19,7 +19,7 @@ Rotations can also be executed about an arbitrary axis, following these steps:
 
 ### Rotation about a Specific Point
 
-Rotation matrices inherently rotate all points about an axis passing through the origin. To rotate about a specific point, a translation operation is necessary. The matrix for rotating about a particular point is given by:
+Rotation matrices inherently rotate all points about an axis, which can either pass through the origin or be located arbitrarily in space. To rotate about a specific point, a translation operation is necessary. The matrix for rotating about a particular point is given by:
 
 M = T<sub>-1</sub>RT
 
