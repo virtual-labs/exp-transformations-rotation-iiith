@@ -2,24 +2,7 @@
     "version": 2.0,
     "questions": [
         {
-            "question": "1. Which of the following is a standard operation in graphics applications for rotation?",
-            "answers": {
-                "a": "Shearing",
-                "b": "Scaling",
-                "c": "Rotation",
-                "d": "Translation"
-            },
-            "correctAnswer": "c",
-            "explanations": {
-                "a": "Incorrect. Shearing is not a standard operation for rotation.",
-                "b": "Incorrect. Scaling is a different operation from rotation.",
-                "c": "Correct! Rotation is a standard operation in graphics applications.",
-                "d": "Incorrect. Translation is a separate operation from rotation."
-            },
-            "difficulty": "beginner"
-        },
-        {
-            "question": "2. What is the significance of the steps involving axis alignment in arbitrary axis rotations?",
+            "question": "1. What is the significance of the steps involving axis alignment in arbitrary axis rotations?",
             "answers": {
                 "a": "To change the color of the axis",
                 "b": "To simplify the rotation process",
@@ -36,7 +19,7 @@
             "difficulty": "intermediate"
         },
         {
-            "question": "3. What does the matrix 'M = T<sub>-1</sub>RT' represent in rotation transformations?",
+            "question": "2. What does the matrix 'M = T<sub>-1</sub>RT' represent in rotation transformations?",
             "answers": {
                 "a": "A translation matrix",
                 "b": "A scaling matrix",
@@ -47,13 +30,13 @@
             "explanations": {
                 "a": "Incorrect. This matrix involves inverse translation, not rotation.",
                 "b": "Incorrect. This matrix is not related to scaling.",
-                "c": "Correct! 'M = T<sub>-1</sub>RT' represents a rotation matrix with translation operations.",
+                "c": "Correct! 'M = T<sup>-1</sup>RT' represents a rotation matrix with translation operations.",
                 "d": "Incorrect. Changing the color is not part of this matrix."
             },
             "difficulty": "advanced"
         },
         {
-            "question": "4. Why is translation necessary when rotating about a specific point?",
+            "question": "3. Why is translation necessary when rotating about a specific point?",
             "answers": {
                 "a": "To change the color of points",
                 "b": "To simplify the rotation process",
@@ -70,7 +53,7 @@
             "difficulty": "advanced"
         },
         {
-            "question": "5. What is the importance of understanding the frame of reference in rotations?",
+            "question": "4. What is the importance of understanding the frame of reference in rotations?",
             "answers": {
                 "a": "To change the color of objects",
                 "b": "To simplify the rotation process",
@@ -87,10 +70,10 @@
             "difficulty": "advanced"
         },
         {
-            "question": "6. How are clockwise and counterclockwise rotations related in a two-dimensional coordinate system?",
+            "question": "5. How are clockwise and counterclockwise rotations related in a two-dimensional coordinate system?",
             "answers": {
                 "a": "They have no relation.",
-                "b": "Clockwise rotation is equivalent to counterclockwise rotation.",
+                "b": "clockwise rotation is the complement of counterclockwise rotation.",
                 "c": "Clockwise rotation results in a different transformation from counterclockwise rotation.",
                 "d": "They are only related to changing the color of objects."
             },
