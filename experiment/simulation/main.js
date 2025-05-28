@@ -154,6 +154,45 @@ yzGrid.addEventListener("click", () => {
   }
 });
 
+function rotateShapesAboutOwnCenter(shapes, rot_axis, rot_angle) {
+  for (let i = 0; i < shapes.length; i++) {
+    // Get the current position of the shape
+    let currentPosition = new THREE.Vector3();
+    shapes[i].geometry.computeBoundingBox();
+    shapes[i].geometry.boundingBox.getCenter(currentPosition);
+
+    // Create rotation matrix about the desired axis
+    let quat = new THREE.Quaternion();
+    quat.setFromAxisAngle(rot_axis, (rot_angle * Math.PI) / 180);
+    let rot_matrix = new THREE.Matrix4().makeRotationFromQuaternion(quat);
+
+    // Apply rotation to the shape's geometry
+    shapes[i].geometry.applyMatrix4(rot_matrix);
+
+    // Update geometry
+    if (shapes[i].geometry.isBufferGeometry) {
+      shapes[i].geometry.attributes.position.needsUpdate = true;
+      shapes[i].geometry.computeBoundingBox();
+      shapes[i].geometry.computeVertexNormals();
+    } else {
+      shapes[i].geometry.verticesNeedUpdate = true;
+    }
+
+    // Update edges if present
+    shapes[i].traverse((child) => {
+      if (child.isLineSegments) {
+        child.geometry.applyMatrix4(rot_matrix);
+        if (child.geometry.isBufferGeometry) {
+          child.geometry.attributes.position.needsUpdate = true;
+          child.geometry.computeBoundingBox();
+        } else {
+          child.geometry.verticesNeedUpdate = true;
+        }
+      }
+    });
+  }
+}
+
 function updateShapeList(shapeList) {
   const shapeListDiv = document.getElementById("shape-list");
   shapeListDiv.innerHTML = ""; // Clear previous list
@@ -614,59 +653,35 @@ function movePoint(e) {
       target.max -
     present_theta;
 
-  let quat = new THREE.Quaternion();
-  let rot_matrix = new THREE.Matrix4();
-  let translate_to_origin = new THREE.Matrix4();
-  let translate_back = new THREE.Matrix4();
-  
-  // Create translation matrices
-  translate_to_origin.makeTranslation(-rot_axis.x, -rot_axis.y, -rot_axis.z);
-  translate_back.makeTranslation(rot_axis.x, rot_axis.y, rot_axis.z);
-  
   // Create rotation matrix
+  let quat = new THREE.Quaternion();
   quat.setFromAxisAngle(rot_axis, (rot_angle * Math.PI) / 180);
-  rot_matrix.makeRotationFromQuaternion(quat);
-  
-  // Combine transformations: translate to origin -> rotate -> translate back
+  let rot_matrix = new THREE.Matrix4().makeRotationFromQuaternion(quat);
+
+  // --- Handle Dot Rotation ---
+  // Get current position
+  let currentPos = new THREE.Vector3();
+  dotList[0].geometry.computeBoundingBox();
+  dotList[0].geometry.boundingBox.getCenter(currentPos);
+
+  // Create translation matrices
+  let translate_to_origin = new THREE.Matrix4().makeTranslation(-currentPos.x, -currentPos.y, -currentPos.z);
+  let translate_back = new THREE.Matrix4().makeTranslation(currentPos.x, currentPos.y, currentPos.z);
+
+  // Combine transformations
   let final_matrix = new THREE.Matrix4();
   final_matrix.multiply(translate_back);
   final_matrix.multiply(rot_matrix);
   final_matrix.multiply(translate_to_origin);
 
-  // --- Handle Dot Rotation ---
+  // Apply transformation
   dotList[0].geometry.applyMatrix4(final_matrix);
   dotList[0].geometry.verticesNeedUpdate = true;
 
   // --- Handle Shapes Rotation ---
-  for (let i = 0; i < shapes.length; i++) {
-    // Apply the combined transformation to the shape's geometry
-    shapes[i].geometry.applyMatrix4(final_matrix);
+  rotateShapesAboutOwnCenter(shapes, rot_axis, rot_angle);
 
-    // Update geometry (handle BufferGeometry and Geometry)
-    if (shapes[i].geometry.isBufferGeometry) {
-      shapes[i].geometry.attributes.position.needsUpdate = true;
-      shapes[i].geometry.computeBoundingBox();
-      shapes[i].geometry.computeVertexNormals();
-    } else {
-      shapes[i].geometry.verticesNeedUpdate = true;
-    }
-
-    // Apply transformation to the edges' geometry
-    shapes[i].traverse((child) => {
-      if (child.isLineSegments) {
-        child.geometry.applyMatrix4(final_matrix);
-
-        if (child.geometry.isBufferGeometry) {
-          child.geometry.attributes.position.needsUpdate = true;
-          child.geometry.computeBoundingBox();
-        } else {
-          child.geometry.verticesNeedUpdate = true;
-        }
-      }
-    });
-  }
-
-  // Apply the final transformation matrix to the transformation matrix
+  // Update transformation matrix
   trans_matrix.multiply(final_matrix);
 
   // Get the position of the first dot and update the display for the dot
@@ -731,15 +746,15 @@ document.getElementById("frames").onchange = function () {
   let rot_matrix = new THREE.Matrix4();
   let translate_to_origin = new THREE.Matrix4();
   let translate_back = new THREE.Matrix4();
-  
+
   // Create translation matrices
   translate_to_origin.makeTranslation(-rot_axis.x, -rot_axis.y, -rot_axis.z);
   translate_back.makeTranslation(rot_axis.x, rot_axis.y, rot_axis.z);
-  
+
   // Create rotation matrix
   quat.setFromAxisAngle(rot_axis, (rot_angle * PI) / 180);
   rot_matrix.makeRotationFromQuaternion(quat);
-  
+
   // Combine transformations: translate to origin -> rotate -> translate back
   let final_matrix = new THREE.Matrix4();
   final_matrix.multiply(translate_back);
@@ -818,15 +833,15 @@ document.getElementById("theta").onchange = function () {
   let rot_matrix = new THREE.Matrix4();
   let translate_to_origin = new THREE.Matrix4();
   let translate_back = new THREE.Matrix4();
-  
+
   // Create translation matrices
   translate_to_origin.makeTranslation(-rot_axis.x, -rot_axis.y, -rot_axis.z);
   translate_back.makeTranslation(rot_axis.x, rot_axis.y, rot_axis.z);
-  
+
   // Create rotation matrix
   quat.setFromAxisAngle(rot_axis, ((new_theta - present_theta) * PI) / 180);
   rot_matrix.makeRotationFromQuaternion(quat);
-  
+
   // Combine transformations: translate to origin -> rotate -> translate back
   let final_matrix = new THREE.Matrix4();
   final_matrix.multiply(translate_back);
@@ -904,7 +919,6 @@ set_rotation_axis.addEventListener("click", () => {
   );
 });
 
-
 function createLabel(text, direction, length) {
   const fontLoader = new THREE.FontLoader();
   let labelMesh;
@@ -967,8 +981,6 @@ procedureMessage.addEventListener("click", (event) => {
   event.stopPropagation(); // Prevent the click inside from closing the overlay
 });
 
-
-
 scene = new THREE.Scene();
 scene.background = new THREE.Color(0x333333);
 camera = new THREE.PerspectiveCamera(
@@ -1002,39 +1014,38 @@ let init = function () {
   );
 
   const length = 10;
- const arrowHelper = [];
- const dir = [
-   new THREE.Vector3(1, 0, 0), // +X
-   new THREE.Vector3(0, 1, 0), // +Y
-   new THREE.Vector3(0, 0, 1), // +Z
-   new THREE.Vector3(-1, 0, 0), // -X
-   new THREE.Vector3(0, -1, 0), // -Y
-   new THREE.Vector3(0, 0, -1), // -Z
- ];
+  const arrowHelper = [];
+  const dir = [
+    new THREE.Vector3(1, 0, 0), // +X
+    new THREE.Vector3(0, 1, 0), // +Y
+    new THREE.Vector3(0, 0, 1), // +Z
+    new THREE.Vector3(-1, 0, 0), // -X
+    new THREE.Vector3(0, -1, 0), // -Y
+    new THREE.Vector3(0, 0, -1), // -Z
+  ];
 
- const labels = ["+X", "+Y", "+Z", "-X", "-Y", "-Z"]; // Labels for each axis
+  const labels = ["+X", "+Y", "+Z", "-X", "-Y", "-Z"]; // Labels for each axis
 
+  // Loop through the axes
+  for (let i = 0; i < 6; i++) {
+    // Determine color based on the direction
+    let color;
+    if (i === 0 || i === 3) {
+      color = "red"; // +X and -X axes
+    } else if (i === 1 || i === 4) {
+      color = "yellow"; // +Y and -Y axes
+    } else {
+      color = "blue"; // +Z and -Z axes
+    }
 
- // Loop through the axes
- for (let i = 0; i < 6; i++) {
-   // Determine color based on the direction
-   let color;
-   if (i === 0 || i === 3) {
-     color = "red"; // +X and -X axes
-   } else if (i === 1 || i === 4) {
-     color = "yellow"; // +Y and -Y axes
-   } else {
-     color = "blue"; // +Z and -Z axes
-   }
+    // Create the arrow helper for the current direction and color
+    arrowHelper[i] = new THREE.ArrowHelper(dir[i], origin, length, color);
+    scene.add(arrowHelper[i]);
 
-   // Create the arrow helper for the current direction and color
-   arrowHelper[i] = new THREE.ArrowHelper(dir[i], origin, length, color);
-   scene.add(arrowHelper[i]);
-
-   // Create label for each axis and position it at the tip of the arrow
-   const label = createLabel(labels[i], dir[i], length);
-   scene.add(label);
- }
+    // Create label for each axis and position it at the tip of the arrow
+    const label = createLabel(labels[i], dir[i], length);
+    scene.add(label);
+  }
   let direction = new THREE.Vector3().subVectors(endPoint, origin).normalize();
 
   vectorArrow = new THREE.ArrowHelper(
@@ -1080,7 +1091,7 @@ let init = function () {
   renderer = new THREE.WebGLRenderer();
   let w = container.offsetWidth;
   let h = container.offsetHeight;
-  renderer.setSize(w, 0.85* h);
+  renderer.setSize(w, 0.85 * h);
   container.appendChild(renderer.domElement);
   orbit = new OrbitControls(camera, renderer.domElement);
   orbit.mouseButtons = {
