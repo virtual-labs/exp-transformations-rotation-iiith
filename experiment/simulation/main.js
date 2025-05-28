@@ -616,17 +616,31 @@ function movePoint(e) {
 
   let quat = new THREE.Quaternion();
   let rot_matrix = new THREE.Matrix4();
+  let translate_to_origin = new THREE.Matrix4();
+  let translate_back = new THREE.Matrix4();
+  
+  // Create translation matrices
+  translate_to_origin.makeTranslation(-rot_axis.x, -rot_axis.y, -rot_axis.z);
+  translate_back.makeTranslation(rot_axis.x, rot_axis.y, rot_axis.z);
+  
+  // Create rotation matrix
   quat.setFromAxisAngle(rot_axis, (rot_angle * Math.PI) / 180);
   rot_matrix.makeRotationFromQuaternion(quat);
+  
+  // Combine transformations: translate to origin -> rotate -> translate back
+  let final_matrix = new THREE.Matrix4();
+  final_matrix.multiply(translate_back);
+  final_matrix.multiply(rot_matrix);
+  final_matrix.multiply(translate_to_origin);
 
   // --- Handle Dot Rotation ---
-  dotList[0].geometry.applyMatrix4(rot_matrix);
+  dotList[0].geometry.applyMatrix4(final_matrix);
   dotList[0].geometry.verticesNeedUpdate = true;
 
   // --- Handle Shapes Rotation ---
   for (let i = 0; i < shapes.length; i++) {
-    // Translate the shape's geometry
-    shapes[i].geometry.applyMatrix4(rot_matrix);
+    // Apply the combined transformation to the shape's geometry
+    shapes[i].geometry.applyMatrix4(final_matrix);
 
     // Update geometry (handle BufferGeometry and Geometry)
     if (shapes[i].geometry.isBufferGeometry) {
@@ -637,13 +651,11 @@ function movePoint(e) {
       shapes[i].geometry.verticesNeedUpdate = true;
     }
 
-    // Apply translation to the edges' geometry
+    // Apply transformation to the edges' geometry
     shapes[i].traverse((child) => {
       if (child.isLineSegments) {
-        // More robust way to identify edges
-        child.geometry.applyMatrix4(rot_matrix);
+        child.geometry.applyMatrix4(final_matrix);
 
-        // Update edge geometry (handle BufferGeometry and Geometry)
         if (child.geometry.isBufferGeometry) {
           child.geometry.attributes.position.needsUpdate = true;
           child.geometry.computeBoundingBox();
@@ -654,8 +666,8 @@ function movePoint(e) {
     });
   }
 
-  // Apply the rotation matrix to the transformation matrix
-  trans_matrix.multiply(rot_matrix);
+  // Apply the final transformation matrix to the transformation matrix
+  trans_matrix.multiply(final_matrix);
 
   // Get the position of the first dot and update the display for the dot
   let position = dotList[0].geometry.getAttribute("position").array;
@@ -708,7 +720,7 @@ function movePoint(e) {
 }
 
 document.getElementById("frames").onchange = function () {
-  let new_value = document.getElementById("frames").value; // New value for frames
+  let new_value = document.getElementById("frames").value;
   let target = document.getElementById("slider");
   let rot_angle =
     (target.value * parseFloat(document.getElementById("theta").value)) /
@@ -717,15 +729,29 @@ document.getElementById("frames").onchange = function () {
 
   let quat = new THREE.Quaternion();
   let rot_matrix = new THREE.Matrix4();
+  let translate_to_origin = new THREE.Matrix4();
+  let translate_back = new THREE.Matrix4();
+  
+  // Create translation matrices
+  translate_to_origin.makeTranslation(-rot_axis.x, -rot_axis.y, -rot_axis.z);
+  translate_back.makeTranslation(rot_axis.x, rot_axis.y, rot_axis.z);
+  
+  // Create rotation matrix
   quat.setFromAxisAngle(rot_axis, (rot_angle * PI) / 180);
   rot_matrix.makeRotationFromQuaternion(quat);
+  
+  // Combine transformations: translate to origin -> rotate -> translate back
+  let final_matrix = new THREE.Matrix4();
+  final_matrix.multiply(translate_back);
+  final_matrix.multiply(rot_matrix);
+  final_matrix.multiply(translate_to_origin);
 
-  // Apply the rotation matrix to the point's geometry
-  dotList[0].geometry.applyMatrix4(rot_matrix);
+  // Apply the combined transformation to the point's geometry
+  dotList[0].geometry.applyMatrix4(final_matrix);
   dotList[0].geometry.verticesNeedUpdate = true;
 
   // Multiply the transformation matrix
-  trans_matrix.multiply(rot_matrix);
+  trans_matrix.multiply(final_matrix);
 
   // Update the position fields (quantityx, quantityy, quantityz)
   document.getElementById("quantityx").value =
@@ -790,12 +816,29 @@ document.getElementById("theta").onchange = function () {
 
   let quat = new THREE.Quaternion();
   let rot_matrix = new THREE.Matrix4();
+  let translate_to_origin = new THREE.Matrix4();
+  let translate_back = new THREE.Matrix4();
+  
+  // Create translation matrices
+  translate_to_origin.makeTranslation(-rot_axis.x, -rot_axis.y, -rot_axis.z);
+  translate_back.makeTranslation(rot_axis.x, rot_axis.y, rot_axis.z);
+  
+  // Create rotation matrix
   quat.setFromAxisAngle(rot_axis, ((new_theta - present_theta) * PI) / 180);
   rot_matrix.makeRotationFromQuaternion(quat);
+  
+  // Combine transformations: translate to origin -> rotate -> translate back
+  let final_matrix = new THREE.Matrix4();
+  final_matrix.multiply(translate_back);
+  final_matrix.multiply(rot_matrix);
+  final_matrix.multiply(translate_to_origin);
 
-  // Apply the rotation to the point's geometry
-  dotList[0].geometry.applyMatrix4(rot_matrix);
+  // Apply the combined transformation to the point's geometry
+  dotList[0].geometry.applyMatrix4(final_matrix);
   dotList[0].geometry.verticesNeedUpdate = true;
+
+  // Multiply the transformation matrix
+  trans_matrix.multiply(final_matrix);
 
   // Update the position fields (quantityx, quantityy, quantityz)
   document.getElementById("quantityx").value =
