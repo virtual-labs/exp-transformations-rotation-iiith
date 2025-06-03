@@ -59,7 +59,8 @@ let scene,
   lock = 0,
   dir = [],
   shapeList = [],
-  arrowHelper = [];
+  arrowHelper = [],
+  selectedShape = null;
 
 let trans_matrix = new THREE.Matrix4();
 trans_matrix.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
@@ -235,6 +236,125 @@ function updateShapeList(shapeList) {
   });
 }
 
+let currentAxisArrow = null; // Add this with other global variables
+
+function movePoint(e) {
+  var target = e.target ? e.target : e.srcElement;
+  let rot_angle =
+    (target.value * parseFloat(document.getElementById("theta").value)) /
+      target.max -
+    present_theta;
+
+  // Create rotation matrix
+  let quat = new THREE.Quaternion();
+  quat.setFromAxisAngle(rot_axis, (rot_angle * Math.PI) / 180);
+  let rot_matrix = new THREE.Matrix4().makeRotationFromQuaternion(quat);
+
+  // --- Handle Selected Shape Rotation ---
+  if (selectedShape) {
+    // Hide the selection line when slider starts moving
+    const selectionLine = scene.getObjectByName("selection-line");
+    if (selectionLine) {
+      selectionLine.visible = false;
+    }
+
+    // Get the shape's current position
+    const shapePos = selectedShape.position.clone();
+    
+    // Create rotation matrix about the selected axis
+    const rotationMatrix = new THREE.Matrix4();
+    rotationMatrix.makeRotationAxis(rot_axis, (rot_angle * Math.PI) / 180);
+    
+    // Apply rotation to the shape
+    selectedShape.geometry.applyMatrix4(rotationMatrix);
+    selectedShape.geometry.verticesNeedUpdate = true;
+  }
+
+  // Update transformation matrix
+  trans_matrix.multiply(rot_matrix);
+
+  // Update the transformation matrix in the UI
+  if (target.value <= 0) {
+    trans_matrix.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+  }
+
+  document.getElementById("matrix-00").value = trans_matrix.elements[0];
+  document.getElementById("matrix-01").value = trans_matrix.elements[1];
+  document.getElementById("matrix-02").value = trans_matrix.elements[2];
+  document.getElementById("matrix-03").value = trans_matrix.elements[3];
+
+  document.getElementById("matrix-10").value = trans_matrix.elements[4];
+  document.getElementById("matrix-11").value = trans_matrix.elements[5];
+  document.getElementById("matrix-12").value = trans_matrix.elements[6];
+  document.getElementById("matrix-13").value = trans_matrix.elements[7];
+
+  document.getElementById("matrix-20").value = trans_matrix.elements[8];
+  document.getElementById("matrix-21").value = trans_matrix.elements[9];
+  document.getElementById("matrix-22").value = trans_matrix.elements[10];
+  document.getElementById("matrix-23").value = trans_matrix.elements[11];
+
+  document.getElementById("matrix-30").value = trans_matrix.elements[12];
+  document.getElementById("matrix-31").value = trans_matrix.elements[13];
+  document.getElementById("matrix-32").value = trans_matrix.elements[14];
+  document.getElementById("matrix-33").value = trans_matrix.elements[15];
+}
+
+// Add event listener for slider mouseup to show selection line again
+slider.addEventListener("mouseup", () => {
+  const selectionLine = scene.getObjectByName("selection-line");
+  if (selectionLine) {
+    selectionLine.visible = true;
+  }
+});
+
+// Update the set_rotation_axis click handler
+set_rotation_axis.addEventListener("click", () => {
+  // Remove previous axis arrow if it exists
+  if (currentAxisArrow && currentAxisArrow instanceof THREE.Object3D) {
+    scene.remove(currentAxisArrow);
+    currentAxisArrow = null;
+  }
+
+  // Set the rotation axis based on dropdown selection
+  if (document.getElementById("axis-change-dropdown").value == 0) {
+    xcomp = 1;
+    ycomp = 0;
+    zcomp = 0;
+  } else if (document.getElementById("axis-change-dropdown").value == 1) {
+    ycomp = 1;
+    xcomp = 0;
+    zcomp = 0;
+  } else if (document.getElementById("axis-change-dropdown").value == 2) {
+    zcomp = 1;
+    xcomp = 0;
+    ycomp = 0;
+  }
+
+  rot_axis = new THREE.Vector3(
+    parseFloat(xcomp),
+    parseFloat(ycomp),
+    parseFloat(zcomp)
+  );
+
+  // Create new purple arrow for the selected axis
+  const origin = new THREE.Vector3(0, 0, 0);
+  const length = 10;
+  currentAxisArrow = new THREE.ArrowHelper(
+    rot_axis,
+    origin,
+    length,
+    0xab53b2, // Purple color
+    1, // Head length
+    0.5 // Head width
+  );
+  
+  // Only add to scene if it's a valid object
+  if (currentAxisArrow && currentAxisArrow instanceof THREE.Object3D) {
+    scene.add(currentAxisArrow);
+  }
+});
+
+// Update handleSelect to properly handle object removal
 function handleSelect(event) {
   const shapeName = event.target.getAttribute("data-name");
   const shapeCoordinates = event.target.getAttribute("data-coordinates");
@@ -287,7 +407,15 @@ function handleSelect(event) {
   const existingLine = scene.getObjectByName("selection-line");
 
   if (existingLine && existingLine.position.equals(shapePosition)) {
-    scene.remove(existingLine);
+    if (existingLine instanceof THREE.Object3D) {
+      scene.remove(existingLine);
+    }
+    selectedShape = null;
+    // Remove axis arrow when deselecting
+    if (currentAxisArrow && currentAxisArrow instanceof THREE.Object3D) {
+      scene.remove(currentAxisArrow);
+      currentAxisArrow = null;
+    }
     console.log("Deselected the shape.");
     return;
   }
@@ -305,8 +433,17 @@ function handleSelect(event) {
     new THREE.LineBasicMaterial({ color: 0xffffff })
   );
   line.position.set(shapePosition.x, shapePosition.y, shapePosition.z);
-  line.name = "selection-line"; // Add a name for easy identification
+  line.name = "selection-line";
   scene.add(line);
+  
+  // Store the selected shape
+  selectedShape = shape;
+  
+  // Update the coordinate inputs with the selected shape's position
+  document.getElementById("quantityx").value = shape.position.x;
+  document.getElementById("quantityy").value = shape.position.y;
+  document.getElementById("quantityz").value = shape.position.z;
+
   console.log("Selection line created at shape's position.");
 
   // Get delete and edit buttons
@@ -544,195 +681,51 @@ spanEditModal.onclick = function () {
   modalEdit.style.display = "none";
 };
 
-// document.addEventListener("pointermove", (event) => {
-//     const rect = renderer.domElement.getBoundingClientRect();
-//     const x = event.clientX - rect.left;
-//     const y = event.clientY - rect.top;
-
-//     mouse.x = (x / container.clientWidth) * 2 - 1;
-//     mouse.y = (y / container.clientHeight) * -2 + 1;
-//     if (mouse.x < 1 && mouse.x > -1 && mouse.y < 1 && mouse.y > -1) {
-//         raycaster.setFromCamera(mouse, camera);
-//         if (isDragging && lock === 0) {
-//             for (let i = 0; i < shapes.length; i++) {
-//                 raycaster.ray.intersectPlane(plane, planeIntersect);
-//                 shapes[i].geometry.vertices[0].set(
-//                     planeIntersect.x + shift.x,
-//                     planeIntersect.y + shift.y,
-//                     planeIntersect.z + shift.z
-//                 );
-//                 shapes[i].geometry.verticesNeedUpdate = true;
-//                 shapeVertex[i].position.set(
-//                     planeIntersect.x + shift.x - dragX[i],
-//                     planeIntersect.y + shift.y - dragY[i],
-//                     planeIntersect.z + shift.z - dragZ[i]
-//                 );
-//             }
-//             raycaster.ray.intersectPlane(plane, planeIntersect);
-//         } else if (isDragging) {
-//             raycaster.ray.intersectPlane(plane, planeIntersect);
-//         }
-//     }
-// });
-// document.addEventListener("pointerdown", () => {
-//     switch (event.which) {
-//         case 1:
-//             const rect = renderer.domElement.getBoundingClientRect();
-//             const x = event.clientX - rect.left;
-//             const y = event.clientY - rect.top;
-
-//             mouse.x = (x / container.clientWidth) * 2 - 1;
-//             mouse.y = (y / container.clientHeight) * -2 + 1;
-//             pNormal.copy(camera.position).normalize();
-//             plane.setFromNormalAndCoplanarPoint(pNormal, scene.position);
-//             raycaster.setFromCamera(mouse, camera);
-//             raycaster.ray.intersectPlane(plane, planeIntersect);
-//             let position = new THREE.Vector3(
-//                 shapeVertex[0].position.x,
-//                 shapeVertex[0].position.y,
-//                 shapeVertex[0].position.z
-//             );
-//             shift.subVectors(position, planeIntersect);
-//             isDragging = true;
-//             dragObject = shapes[shapes.length - 1];
-//             break;
-//     }
-// });
-// document.addEventListener("pointerup", () => {
-//     isDragging = false;
-//     dragObject = null;
-// });
-
 let vectorArrow; // Global reference for the arrow
 moveButton.addEventListener("click", () => {
+  if (!selectedShape) {
+    console.log("No shape selected");
+    return;
+  }
+
   let x = parseFloat(document.getElementById("quantityx").value);
   let y = parseFloat(document.getElementById("quantityy").value);
   let z = parseFloat(document.getElementById("quantityz").value);
 
-  // Create a translation matrix to move the point
+  // Create a translation matrix to move the shape
   let translate_M = new THREE.Matrix4();
   translate_M.makeTranslation(
-    x - dotList[0].geometry.getAttribute("position").array[0],
-    y - dotList[0].geometry.getAttribute("position").array[1],
-    z - dotList[0].geometry.getAttribute("position").array[2]
+    x - selectedShape.position.x,
+    y - selectedShape.position.y,
+    z - selectedShape.position.z
   );
 
-  // Apply translation to the point's geometry
-  dotList[0].geometry.applyMatrix4(translate_M);
-  dotList[0].geometry.verticesNeedUpdate = true;
+  // Apply translation to the shape
+  selectedShape.position.set(x, y, z);
+  selectedShape.updateMatrix();
 
-  // Update the transformation matrix
-  trans_matrix.multiply(translate_M);
-
-  // Update initial position for future reference
-  initial_pos[0] = x;
-  initial_pos[1] = y;
-  initial_pos[2] = z;
-
-  // Draw the updated vector arrow from the origin to the new point
-  let position = dotList[0].geometry.getAttribute("position").array;
-  let origin = new THREE.Vector3(0, 0, 0);
-  let endPoint = new THREE.Vector3(position[0], position[1], position[2]);
-  let direction = new THREE.Vector3().subVectors(endPoint, origin).normalize();
-  let length = endPoint.distanceTo(origin);
-
-  if (vectorArrow) {
-    // Remove the old arrow if it exists
-    scene.remove(vectorArrow);
+  // Update the selection line position
+  const selectionLine = scene.getObjectByName("selection-line");
+  if (selectionLine) {
+    selectionLine.position.set(x, y, z);
   }
 
-  // Create a new arrow helper and add it to the scene
-  vectorArrow = new THREE.ArrowHelper(direction, origin, length, 0xff0000);
-  scene.add(vectorArrow); // Add the new arrow to the scene
+  // Update the shape in shapeList
+  const shapeIndex = shapeList.findIndex(
+    (s) =>
+      s.x === selectedShape.position.x &&
+      s.y === selectedShape.position.y &&
+      s.z === selectedShape.position.z
+  );
+  if (shapeIndex !== -1) {
+    shapeList[shapeIndex].x = x;
+    shapeList[shapeIndex].y = y;
+    shapeList[shapeIndex].z = z;
+  }
+
+  // Update the UI
+  updateShapeList(shapeList);
 });
-
-function movePoint(e) {
-  var target = e.target ? e.target : e.srcElement;
-  let rot_angle =
-    (target.value * parseFloat(document.getElementById("theta").value)) /
-      target.max -
-    present_theta;
-
-  // Create rotation matrix
-  let quat = new THREE.Quaternion();
-  quat.setFromAxisAngle(rot_axis, (rot_angle * Math.PI) / 180);
-  let rot_matrix = new THREE.Matrix4().makeRotationFromQuaternion(quat);
-
-  // --- Handle Dot Rotation ---
-  // Get current position
-  let currentPos = new THREE.Vector3();
-  dotList[0].geometry.computeBoundingBox();
-  dotList[0].geometry.boundingBox.getCenter(currentPos);
-
-  // Create translation matrices
-  let translate_to_origin = new THREE.Matrix4().makeTranslation(-currentPos.x, -currentPos.y, -currentPos.z);
-  let translate_back = new THREE.Matrix4().makeTranslation(currentPos.x, currentPos.y, currentPos.z);
-
-  // Combine transformations
-  let final_matrix = new THREE.Matrix4();
-  final_matrix.multiply(translate_back);
-  final_matrix.multiply(rot_matrix);
-  final_matrix.multiply(translate_to_origin);
-
-  // Apply transformation
-  dotList[0].geometry.applyMatrix4(final_matrix);
-  dotList[0].geometry.verticesNeedUpdate = true;
-
-  // --- Handle Shapes Rotation ---
-  rotateShapesAboutOwnCenter(shapes, rot_axis, rot_angle);
-
-  // Update transformation matrix
-  trans_matrix.multiply(final_matrix);
-
-  // Get the position of the first dot and update the display for the dot
-  let position = dotList[0].geometry.getAttribute("position").array;
-  document.getElementById("quantityx").value = position[0];
-  document.getElementById("quantityy").value = position[1];
-  document.getElementById("quantityz").value = position[2];
-
-  // Update the transformation matrix in the UI
-  if (target.value <= 0) {
-    trans_matrix.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-  }
-
-  document.getElementById("matrix-00").value = trans_matrix.elements[0];
-  document.getElementById("matrix-01").value = trans_matrix.elements[1];
-  document.getElementById("matrix-02").value = trans_matrix.elements[2];
-  document.getElementById("matrix-03").value = trans_matrix.elements[3];
-
-  document.getElementById("matrix-10").value = trans_matrix.elements[4];
-  document.getElementById("matrix-11").value = trans_matrix.elements[5];
-  document.getElementById("matrix-12").value = trans_matrix.elements[6];
-  document.getElementById("matrix-13").value = trans_matrix.elements[7];
-
-  document.getElementById("matrix-20").value = trans_matrix.elements[8];
-  document.getElementById("matrix-21").value = trans_matrix.elements[9];
-  document.getElementById("matrix-22").value = trans_matrix.elements[10];
-  document.getElementById("matrix-23").value = trans_matrix.elements[11];
-
-  document.getElementById("matrix-30").value = trans_matrix.elements[12];
-  document.getElementById("matrix-31").value = trans_matrix.elements[13];
-  document.getElementById("matrix-32").value = trans_matrix.elements[14];
-  document.getElementById("matrix-33").value = trans_matrix.elements[15];
-
-  // --- Draw Vector Arrow for the first dot ---
-  let origin = new THREE.Vector3(0, 0, 0);
-  let endPoint = new THREE.Vector3(position[0], position[1], position[2]);
-  let direction = new THREE.Vector3().subVectors(endPoint, origin).normalize();
-  let length = endPoint.distanceTo(origin);
-
-  if (vectorArrow) {
-    // Remove the old arrow if it exists
-    scene.remove(vectorArrow);
-  }
-
-  // Create the new vector arrow for the first dot
-  vectorArrow = new THREE.ArrowHelper(direction, origin, length, 0xab53b2);
-  scene.add(vectorArrow); // Add the new arrow to the scene
-
-  // Update the present_theta (global rotation angle)
-  present_theta += rot_angle;
-}
 
 document.getElementById("frames").onchange = function () {
   let new_value = document.getElementById("frames").value;
@@ -804,22 +797,6 @@ document.getElementById("frames").onchange = function () {
 
   // Update the slider max value
   document.getElementById("slider").max = new_value;
-
-  // Recalculate the vector for the updated point
-  let position = dotList[0].geometry.getAttribute("position").array;
-  let origin = new THREE.Vector3(0, 0, 0); // Origin at (0, 0, 0)
-  let endPoint = new THREE.Vector3(position[0], position[1], position[2]); // New point position
-  let direction = new THREE.Vector3().subVectors(endPoint, origin).normalize(); // Direction from origin to point
-  let length = endPoint.distanceTo(origin); // Length of the arrow (distance from origin to point)
-
-  // Remove the old arrow if it exists
-  if (vectorArrow) {
-    scene.remove(vectorArrow);
-  }
-
-  // Create and add the new arrow based on the updated point
-  vectorArrow = new THREE.ArrowHelper(direction, origin, length, 0xff0000); // Red color
-  scene.add(vectorArrow); // Add the new arrow to the scene
 };
 
 document.getElementById("theta").onchange = function () {
@@ -877,71 +854,31 @@ document.getElementById("theta").onchange = function () {
 
   // Update present_theta
   present_theta = new_theta;
-
-  // Recalculate the vector for the updated point
-  let position = dotList[0].geometry.getAttribute("position").array;
-  let origin = new THREE.Vector3(0, 0, 0);
-  let endPoint = new THREE.Vector3(position[0], position[1], position[2]);
-  let direction = new THREE.Vector3().subVectors(endPoint, origin).normalize();
-  let length = endPoint.distanceTo(origin);
-
-  // Remove the old arrow if it exists
-  if (vectorArrow) {
-    scene.remove(vectorArrow);
-  }
-
-  // Create and add the new arrow based on the updated point
-  vectorArrow = new THREE.ArrowHelper(direction, origin, length, 0xff0000); // Red color
-  scene.add(vectorArrow); // Add the new arrow to the scene
 };
 
-set_rotation_axis.addEventListener("click", () => {
-  if (document.getElementById("axis-change-dropdown").value == 0) {
-    xcomp = 1;
-    ycomp = 0;
-    zcomp = 0;
-  }
-  if (document.getElementById("axis-change-dropdown").value == 1) {
-    ycomp = 1;
-    xcomp = 0;
-    zcomp = 0;
-  }
-  if (document.getElementById("axis-change-dropdown").value == 2) {
-    zcomp = 1;
-    xcomp = 0;
-    ycomp = 0;
-  }
-
-  rot_axis = new THREE.Vector3(
-    parseFloat(xcomp),
-    parseFloat(ycomp),
-    parseFloat(zcomp)
-  );
-});
-
 function createLabel(text, direction, length) {
-  const fontLoader = new THREE.FontLoader();
-  let labelMesh;
+  return new Promise((resolve) => {
+    const fontLoader = new THREE.FontLoader();
+    
+    fontLoader.load(
+      "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",
+      function (font) {
+        const geometry = new THREE.TextGeometry(text, {
+          font: font,
+          size: 0.6,
+          height: 0.1,
+        });
+        const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const labelMesh = new THREE.Mesh(geometry, material);
 
-  fontLoader.load(
-    "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",
-    function (font) {
-      const geometry = new THREE.TextGeometry(text, {
-        font: font,
-        size: 0.6,
-        height: 0.1,
-      });
-      const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      labelMesh = new THREE.Mesh(geometry, material);
-
-      // Position the label at the end of the arrow (tip of the arrow)
-      const labelPosition = direction.clone().multiplyScalar(length);
-      labelMesh.position.copy(labelPosition);
-      scene.add(labelMesh);
-    }
-  );
-
-  return labelMesh;
+        // Position the label at the end of the arrow (tip of the arrow)
+        const labelPosition = direction.clone().multiplyScalar(length);
+        labelMesh.position.copy(labelPosition);
+        
+        resolve(labelMesh);
+      }
+    );
+  });
 }
 
 const toggleInstructions = document.getElementById("toggle-instructions");
@@ -991,9 +928,27 @@ camera = new THREE.PerspectiveCamera(
 );
 
 let init = function () {
-  camera.position.set(20, 20, 20); // Set camera position behind and above the origin
-
-  camera.lookAt(10, 10, 5);
+  // Check if we're on mobile
+  const isMobile = window.innerWidth <= 800;
+  
+  // Set camera position and FOV based on device
+  if (isMobile) {
+    camera.fov = 45; // Wider field of view for mobile
+    camera.position.set(8, 8, 8); // Closer position for more zoom
+    camera.lookAt(0, 0, 0); // Look at center
+    
+    // Update aspect ratio for mobile
+    const w = container.offsetWidth;
+    const h = container.offsetHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  } else {
+    camera.fov = 30; // Original FOV for desktop
+    camera.position.set(20, 20, 20); // Keep original desktop position
+    camera.lookAt(10, 10, 5);
+    camera.updateProjectionMatrix();
+  }
+  
   const light = new THREE.DirectionalLight(0xffffff, 3);
   light.position.set(1, 1, 1).normalize();
   scene.add(light);
@@ -1042,19 +997,13 @@ let init = function () {
     arrowHelper[i] = new THREE.ArrowHelper(dir[i], origin, length, color);
     scene.add(arrowHelper[i]);
 
-    // Create label for each axis and position it at the tip of the arrow
-    const label = createLabel(labels[i], dir[i], length);
-    scene.add(label);
+    // Create and add label for each axis
+    createLabel(labels[i], dir[i], length).then(labelMesh => {
+      if (labelMesh && labelMesh instanceof THREE.Object3D) {
+        scene.add(labelMesh);
+      }
+    });
   }
-  let direction = new THREE.Vector3().subVectors(endPoint, origin).normalize();
-
-  vectorArrow = new THREE.ArrowHelper(
-    direction,
-    origin,
-    endPoint.distanceTo(origin),
-    0xab53b2
-  );
-  scene.add(vectorArrow); // Add the new arrow to the scene
 
   createCube(
     5,
@@ -1110,3 +1059,28 @@ let mainLoop = function () {
 };
 init();
 mainLoop();
+
+// Update window resize handler
+window.addEventListener('resize', () => {
+  const isMobile = window.innerWidth <= 800;
+  
+  // Update camera position and FOV on resize
+  if (isMobile) {
+    camera.fov = 45; // Wider field of view for mobile
+    camera.position.set(8, 8, 8); // Closer position for more zoom
+    camera.lookAt(0, 0, 0); // Look at center
+  } else {
+    camera.fov = 30; // Original FOV for desktop
+    camera.position.set(20, 20, 20); // Keep original desktop position
+    camera.lookAt(10, 10, 5);
+  }
+  
+  // Update aspect ratio
+  const w = container.offsetWidth;
+  const h = container.offsetHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  
+  // Update renderer size
+  renderer.setSize(w, 0.85 * h);
+});

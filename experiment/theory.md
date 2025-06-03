@@ -10,18 +10,32 @@
 
 <img src="images/rotation-matrix.png">  
 
-Rotations can also be executed about an arbitrary axis, following these steps:
+Rotations can also be executed about an arbitrary axis, following these detailed steps:
 
-1. Rotate the arbitrary axis about one of the coordinate axes (e.g., Y) to align it with one of the coordinate planes (e.g., XY).
-2. Rotate this axis about the Z-axis to align it with the Y-axis.
-3. Perform the required rotation about the Y-axis using the rotation matrix R<sub>Y</sub>.
-4. Reverse the steps 2 and 1 to restore the axis to its original alignment.
+1. **Initial Alignment (XY Plane)**
+   - Calculate the angle between the arbitrary axis and the YZ plane
+   - Rotate the arbitrary axis about the Y-axis by this angle to bring it into the XY plane
+   - This first rotation ensures the axis lies in a coordinate plane for easier manipulation
+
+2. **Y-Axis Alignment**
+   - Calculate the angle between the axis (now in XY plane) and the Y-axis
+   - Rotate about the Z-axis by this angle to align the arbitrary axis with the Y-axis
+   - This second rotation brings the axis parallel to a coordinate axis
+
+3. **Perform Desired Rotation**
+   - Apply the standard Y-axis rotation matrix R<sub>Y</sub> with the desired angle
+   - This rotation is now straightforward since the axis is aligned with Y
+
+4. **Reverse Transformations**
+   - Apply the inverse of step 2 (rotate back about Z-axis)
+   - Apply the inverse of step 1 (rotate back about Y-axis)
+   - These inverse rotations restore the axis to its original orientation
 
 ### Rotation about a Specific Point
 
 Rotation matrices inherently rotate all points about an axis, which can either pass through the origin or be located arbitrarily in space. To rotate about a specific point, a translation operation is necessary. The matrix for rotating about a particular point is given by:
 
-M = T<sub>-1</sub>RT
+M = T<sup>-1</sup>RT
 
 Here, T translates the point to the origin, R is the rotation matrix, and T translates the point back to its original location.
 
@@ -84,3 +98,5 @@ This is how you rotate a point around another point, rather than the origin.
 v - original vector, v' - vector after rotation
     
 and x,y - original coordinate axes , x', y' - coordinate axes after rotation, ψ - Angle of rotation
+
+*Note: All images in this document are original illustrations created for this experiment. No external copyrighted material has been used.*
