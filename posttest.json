@@ -1,0 +1,90 @@
+{
+    "version": 2.0,
+    "questions": [
+        {
+            "question": "1. What is the significance of the steps involving axis alignment in arbitrary axis rotations?",
+            "answers": {
+                "a": "To change the color of the axis",
+                "b": "To simplify the rotation process",
+                "c": "To translate the axis",
+                "d": "To align the axis with the coordinate planes"
+            },
+            "correctAnswer": "d",
+            "explanations": {
+                "a": "Incorrect. Axis alignment is not related to changing the color of the axis.",
+                "b": "Incorrect. Axis alignment is crucial for the correct execution of rotations, not for simplification.",
+                "c": "Incorrect. Axis alignment does not involve translation of the axis.",
+                "d": "Correct! The purpose of axis alignment is to align the arbitrary axis with the coordinate planes for accurate rotations."
+            },
+            "difficulty": "intermediate"
+        },
+        {
+            "question": "2. What does the matrix 'M = T<sub>-1</sub>RT' represent in rotation transformations?",
+            "answers": {
+                "a": "A translation matrix",
+                "b": "A scaling matrix",
+                "c": "A rotation matrix",
+                "d": "A matrix for changing the color of points"
+            },
+            "correctAnswer": "c",
+            "explanations": {
+                "a": "Incorrect. This matrix involves inverse translation, not rotation.",
+                "b": "Incorrect. This matrix is not related to scaling.",
+                "c": "Correct! 'M = T<sup>-1</sup>RT' represents a rotation matrix with translation operations.",
+                "d": "Incorrect. Changing the color is not part of this matrix."
+            },
+            "difficulty": "advanced"
+        },
+        {
+            "question": "3. Why is translation necessary when rotating about a specific point?",
+            "answers": {
+                "a": "To change the color of points",
+                "b": "To simplify the rotation process",
+                "c": "To rotate points about an arbitrary axis",
+                "d": "To bring the point to the origin before rotation"
+            },
+            "correctAnswer": "d",
+            "explanations": {
+                "a": "Incorrect. Translation is not required to change the color of points.",
+                "b": "Incorrect. Translation is not for simplifying rotations.",
+                "c": "Incorrect. Rotations about an arbitrary axis involve a different process.",
+                "d": "Correct! Translation is necessary to bring the point to the origin before applying the rotation."
+            },
+            "difficulty": "advanced"
+        },
+        {
+            "question": "4. What is the importance of understanding the frame of reference in rotations?",
+            "answers": {
+                "a": "To change the color of objects",
+                "b": "To simplify the rotation process",
+                "c": "To accurately describe rotations relative to a specific frame",
+                "d": "To perform translations"
+            },
+            "correctAnswer": "c",
+            "explanations": {
+                "a": "Incorrect. Understanding the frame of reference is not for changing the color of objects.",
+                "b": "Incorrect. Frame of reference understanding is not about simplifying rotations.",
+                "c": "Correct! Knowing the frame of reference is crucial for accurately describing rotations.",
+                "d": "Incorrect. Frame of reference is not related to performing translations."
+            },
+            "difficulty": "advanced"
+        },
+        {
+            "question": "5. How are clockwise and counterclockwise rotations related in a two-dimensional coordinate system?",
+            "answers": {
+                "a": "They have no relation.",
+                "b": "clockwise rotation is the complement of counterclockwise rotation.",
+                "c": "Clockwise rotation results in a different transformation from counterclockwise rotation.",
+                "d": "They are only related to changing the color of objects."
+            },
+            "correctAnswer": "b",
+            "explanations": {
+                "a": "Incorrect. Clockwise and counterclockwise rotations are related.",
+                "b": "Correct! In two dimensions, clockwise rotation is equivalent to counterclockwise rotation.",
+                "c": "Incorrect. The transformations are equivalent.",
+                "d": "Incorrect. Changing the color is not related to the direction of rotations."
+            },
+            "difficulty": "advanced"
+        }
+    ]
+}
