@@ -24,11 +24,15 @@
     height: 100%;
     /* min-height: 150px; */
     border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
 }
 
 .v-slider-full {
     width: 80%;
-	margin: auto;
+    margin: 20px auto;
 }
 
 .input-form {
@@ -68,57 +72,193 @@
     width: 100%; /* Ensure slider takes up full width */
 }
 
-.axis-change{
+.axis-change {
     display: flex;
-    flex-direction: row;
-    padding-left: 25px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 10px auto;
+    gap: 10px;
 }
 
+.axis-change select {
+    height: 35px;
+    padding: 0 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: white;
+    font-size: 14px;
+    cursor: pointer;
+    min-width: 80px; /* Ensure minimum width for the dropdown */
+}
+
+.axis-change button {
+    height: 35px;
+    padding: 0 15px;
+    border-radius: 4px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap; /* Prevent button text from wrapping */
+}
+
+.axis-change button:hover {
+    background-color: #45a049;
+}
 
 @media screen and (max-width: 800px) {
-     .v-canvas-container {
+    .v-canvas-container {
         width: 100%;
-        height: 650px; /* Set a minimum height for mobile */
-        /* min-height: 100px; */
+        height: 650px;
+        margin: 0 auto;
     }
-    .slider-container {
-        margin-top: -60px;
-    }
-    .axis-change{
+    
+    /* Update column ordering and width for mobile */
+    .workspace {
         display: flex;
         flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        align-items: center;
     }
-    .left {
+    
+    /* Left column */
+    #left.apparatus {
+        width: 100% !important;
+        height: auto !important;
         order: 1;
-        
     }
-
-    .right {
+    
+    /* Observations column */
+    #observations.right {
+        width: 100% !important;
+        height: auto !important;
         order: 2;
     }
-
+    
+    /* Central column with canvas and slider */
     .exp {
+        width: 100% !important;
         order: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+    }
+    
+    /* Canvas container */
+    #canvas-main {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+    }
+    
+    /* Slider container adjustments */
+    .slider-container {
+        width: 100%;
+        margin: 20px auto;
+        padding-bottom: 20px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .centered-slider {
+        width: 80%;
+        margin: 0 auto;
+    }
+    
+    .axis-change {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 0;
+        margin: 10px auto;
+        width: 100%;
+    }
+    
+    .axis-change select,
+    .axis-change button {
+        height: 36px;
+    }
+    
+    /* Ensure proper spacing between elements */
+    .v-datalist-container {
+        margin-bottom: 20px;
+    }
+    
+    /* Adjust checkbox container for better mobile layout */
+    #checkboxes {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    /* Adjust shape list container for mobile */
+    .shape-list-container {
+        height: auto;
+        max-height: 300px; /* Limit height on mobile */
     }
 }
 
 /* Extra styles for desktop */
 /* Extra styles for desktop */
 @media (min-width: 1024px) {
-  #left.apparatus {
-    width: 20vw; /* Adjusting width using viewport width */
-    height: 90vh; /* Adjusting height using viewport height */
-    border-radius: 16px; /* Rounded corners for a modern look */
-    overflow-y: auto; /* Scrollbar for overflow content */
-    /* Any additional styles can be added here */
-  }
- #observations.right {
-    width: 20vw; /* Adjusting width using viewport width */
-    height: 90vh; /* Adjusting height using viewport height */
-    border-radius: 16px; /* Rounded corners for a modern look */
-    overflow-y: auto; /* Scrollbar for overflow content */
-    /* Any additional styles can be added here */
-  }
+    #left.apparatus {
+        width: 20vw;
+        height: 90vh;
+        border-radius: 16px;
+        overflow-y: auto;
+    }
+    
+    #observations.right {
+        width: 20vw;
+        height: 90vh;
+        border-radius: 16px;
+        overflow-y: auto;
+    }
+    
+    /* Ensure canvas container matches column width */
+    .exp {
+        width: 20vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    #canvas-main {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .slider-container {
+        width: 100%;
+        margin: 20px auto;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .axis-change {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin: 10px auto;
+        gap: 10px;
+    }
+    
+    .axis-change select,
+    .axis-change button {
+        height: 35px;
+        line-height: 35px; /* Ensure text is vertically centered */
+    }
 }
 
 
