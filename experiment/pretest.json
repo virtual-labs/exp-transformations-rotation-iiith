@@ -1,0 +1,90 @@
+{
+    "version": 2.0,
+    "questions": [
+        {
+            "question": "1. What is the primary purpose of a rotation transformation in computer graphics?",
+            "answers": {
+                "a": "To stretch graphical objects",
+                "b": "To change the color of objects",
+                "c": "To describe the motion of a rigid body around a fixed point",
+                "d": "To translate objects along an axis"
+            },
+            "correctAnswer": "c",
+            "explanations": {
+                "a": "Incorrect. Rotation is not associated with stretching objects.",
+                "b": "Incorrect. Rotation does not change the color of objects.",
+                "c": "Correct! Rotation describes the motion of a rigid body around a fixed point.",
+                "d": "Incorrect. Translation, not rotation, is responsible for moving objects along an axis."
+            },
+            "difficulty": "beginner"
+        },
+        {
+            "question": "2. What does a rotation matrix represent in the context of computer graphics?",
+            "answers": {
+                "a": "A matrix for resizing objects",
+                "b": "A matrix for translating objects",
+                "c": "A matrix for rotating points",
+                "d": "A matrix for changing the color of objects"
+            },
+            "correctAnswer": "c",
+            "explanations": {
+                "a": "Incorrect. Rotation matrices are not used for resizing objects.",
+                "b": "Incorrect. Translation matrices are used for moving objects, not rotation matrices.",
+                "c": "Correct! A rotation matrix is used for rotating points.",
+                "d": "Incorrect. Rotation matrices do not change the color of objects."
+            },
+            "difficulty": "beginner"
+        },
+        {
+            "question": "3. What does the rotation matrix for rotating about the Z-axis look like?",
+            "answers": {
+              "a": "<img src=\"images/op1.png\">",
+              "b": "<img src=\"images/op2.png\">",
+              "c": "<img src=\"images/op3.png\">",
+              "d": "<img src=\"images/op4.png\">"
+            },
+            "correctAnswer": "c",
+            "explanations": {
+                "a": "Incorrect. This matrix represents rotation represents some different kind of mix-rotation",
+                "b": "Incorrect. This matrix represents rotation about the Y-axis, not the Z-axis.",
+                "c": "Correct! The rotation matrix for the Z-axis in 3D space is <img src=\"images/rotation-Z.png\">",
+                "d": "Incorrect. This matrix represents rotation about the X-axis, not the Z-axis."
+            },
+            "difficulty": "intermediate"
+        },
+        {
+            "question": "4. How can rotations be performed about an arbitrary axis in computer graphics?",
+            "answers": {
+                "a": "Directly using the standard rotation matrix",
+                "b": "By applying multiple translations",
+                "c": "By using a combination of rotations about the coordinate axes",
+                "d": "By changing the color of the axis"
+            },
+            "correctAnswer": "c",
+            "explanations": {
+                "a": "Incorrect. The standard rotation matrix is specific to the coordinate axes.",
+                "b": "Incorrect. Multiple translations do not perform rotations about an arbitrary axis.",
+                "c": "Correct! Rotations about an arbitrary axis can be achieved by combining rotations about the coordinate axes.",
+                "d": "Incorrect. Changing the color is unrelated to performing rotations about an arbitrary axis."
+            },
+            "difficulty": "intermediate"
+        },
+        {
+            "question": "5. Why is translation necessary when rotating about a specific point?",
+            "answers": {
+                "a": "To change the color of points",
+                "b": "To simplify the rotation process",
+                "c": "To rotate points about an arbitrary axis",
+                "d": "To bring the point to the origin before rotation"
+            },
+            "correctAnswer": "d",
+            "explanations": {
+                "a": "Incorrect. Translation is not required to change the color of points.",
+                "b": "Incorrect. Translation is not for simplifying rotations.",
+                "c": "Incorrect. Rotations about an arbitrary axis involve a different process.",
+                "d": "Correct! Translation is necessary to bring the point to the origin before applying the rotation."
+            },
+            "difficulty": "advanced"
+        }
+    ]
+}

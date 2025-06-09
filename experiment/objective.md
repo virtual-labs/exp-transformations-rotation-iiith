@@ -1,1 +1,7 @@
-- To understand the effect of rotation about an axis on Points in 2D/3D space. We also learn the matrix representation for the translation and how to use it to compute the translated point.
+1. **Effect of Rotation:** Gain a comprehensive understanding of how rotation about an axis influences points in both 2D and 3D space. Through practical exercises, participants will observe and analyze the transformations applied to various graphical elements, discerning the visual impact of rotation on the position and orientation of points.
+
+2. **Matrix Representation:** Explore the matrix representation for rotation transformations. Participants will delve into the mathematical underpinnings of rotation matrices and their application in computer graphics. Through hands-on exercises, grasp the concept of matrix multiplication for rotation and its role in transforming graphical entities.
+
+3. **Computing Rotated Points:** Acquire practical skills in using matrix representation to compute rotated points. Engage in step-by-step simulations to calculate the transformed coordinates of points following rotation operations. This objective aims to enhance participants' proficiency in applying rotation transformations through matrix manipulation.
+
+By achieving these objectives, participants will develop a solid foundation in rotation transformations, enabling them to apply this knowledge to real-world scenarios in computer graphics.
